@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import config from '../config.js';
-import logger from '../../logger/logger.js';
+import config from './config.js';
+import logger from '../utils/logger.js';
 
 const DB_URI = config.mongodb_uri;
 

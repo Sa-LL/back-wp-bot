@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import logger from '../../../logger/logger.js';
-import store from './store.js';
+import logger from '../utils/logger.js';
+import services from '../services/counter.service.js';
 
 const getCounter = async (req: Request, res: Response) => {
   try {
-    res.send('Funcionó');
-  } catch (error) {
+    res.send('working');
+  } catch (error: any) {
     res.status(500).send(error.message);
   }
 };
@@ -14,7 +14,7 @@ const createCounter = async (req: Request, res: Response) => {
   try {
     const { body } = req;
     logger.info(body, 'body');
-    const result = await store.create(body);
+    const result = await services.create(body);
     res.status(200).send(result);
   } catch (error) {
     logger.error(error);

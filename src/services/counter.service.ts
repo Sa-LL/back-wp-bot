@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import counterModel, { ICounter } from './model.js';
+import counterModel, { ICounter } from '../models/counter.model.js';
 
 async function createCounter(counter: ICounter) {
   const newCounter = new counterModel(counter);

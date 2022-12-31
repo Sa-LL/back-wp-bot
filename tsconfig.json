@@ -1,12 +1,24 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "target": "ES2020",
+    "module": "NodeNext",
+    "rootDir": ".",
+    "moduleResolution": "NodeNext",
+    "allowJs": true,
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["./src/components/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules"],
   "ts-node": {
     "esm": true
   }
