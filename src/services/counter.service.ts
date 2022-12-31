@@ -1,12 +1,14 @@
 import { Types } from 'mongoose';
 import counterModel, { ICounter } from '../models/counter.model.js';
 
-async function createCounter(counter: ICounter) {
+function createCounter(counter: ICounter) {
   const newCounter = new counterModel(counter);
-  return await newCounter.save();
+  return newCounter.save();
 }
 
-function getCounter(counter: ICounter) {}
+function getCounter() {
+  return counterModel.find();
+}
 
 function updateCounter(counter: ICounter, id: Types.ObjectId) {}
 

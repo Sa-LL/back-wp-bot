@@ -1,10 +1,14 @@
 import { Request, Response } from 'express';
 import logger from '../utils/logger.js';
 import services from '../services/counter.service.js';
+import counterModel from '../models/counter.model.js';
+import { getModelKeys } from '../utils/utils.js';
 
 const getCounter = async (req: Request, res: Response) => {
   try {
-    res.send('working');
+    const result = await services.get();
+    getModelKeys(counterModel);
+    res.status(200).send(result);
   } catch (error: any) {
     res.status(500).send(error.message);
   }
