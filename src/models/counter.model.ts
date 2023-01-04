@@ -1,7 +1,7 @@
 import { Schema, model, Types } from 'mongoose';
 import { ICounter } from '../types/counter.js';
 
-enum Status {
+export enum CounterStatus {
   IN_PROGRESS = 0,
   COMPLETED = 1,
   STOPPED = 2,
@@ -25,7 +25,7 @@ export const counterSchema = new Schema<ICounter>(
       type: Number,
       required: true,
       default: 0,
-      enum: Status,
+      enum: CounterStatus,
     },
     completition_date: Date,
     reset_counter: {
