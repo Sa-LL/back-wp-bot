@@ -13,12 +13,24 @@ export interface ICounter {
   updated_at?: Date;
 }
 
-interface RequestParams {}
+/**
+ * GET REQUEST
+ */
 
-interface ResponseBody {}
+interface GetRequestQuery extends ICounter {}
 
-interface RequestBody {}
+/**
+ * PATCH REQUEST
+ */
+interface PatchRequestParams {
+  id?: string;
+}
 
-interface RequestQuery extends ICounter {}
+export interface PatchRequestBody
+  extends Partial<Omit<ICounter, '_id' | 'created_at' | 'updated_at'>> {}
 
-export type GetRequest = Request<RequestParams, ResponseBody, RequestBody, RequestQuery>;
+// export type Request = Request<RequestParams, ResponseBody, RequestBody, RequestQuery>;
+
+export type GetRequest = Request<{}, {}, {}, GetRequestQuery>;
+
+export type PatchRequest = Request<PatchRequestParams, {}, PatchRequestBody, {}>;

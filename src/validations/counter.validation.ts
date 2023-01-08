@@ -17,6 +17,16 @@ const createCounterSchemaYUP = yup.object({
   reset_counter: reset_counter.default(0),
 });
 
+const patchCounterSchemaYUP = yup.object({
+  title,
+  description,
+  count,
+  status,
+  completition_date,
+  reset_counter,
+});
+
 export default {
   createCounterSchemaYUP,
+  patchCounterSchemaYUP,
 };

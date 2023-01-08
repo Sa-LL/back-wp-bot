@@ -1,5 +1,4 @@
-import { Types } from 'mongoose';
-import { ICounter } from '../types/counter.js';
+import { ICounter, PatchRequestBody } from '../types/counter.js';
 import counterModel from '../models/counter.model.js';
 
 function createCounter(counter: ICounter) {
@@ -11,10 +10,22 @@ function getCounter(filters: ICounter) {
   return counterModel.find(filters).exec();
 }
 
-function updateCounter(counter: ICounter, id: Types.ObjectId) {}
+function getCounterByID(id: string) {
+  return counterModel.findById(id).exec();
+}
+
+function updateCounter(id: string, counter: PatchRequestBody) {
+  return counterModel.findByIdAndUpdate(id, counter, { new: true }).exec();
+}
+
+function deleteCounter(id: string) {
+  return counterModel.findByIdAndDelete(id).exec();
+}
 
 export default {
   create: createCounter,
   get: getCounter,
+  getByID: getCounterByID,
   update: updateCounter,
+  delete: deleteCounter,
 };
