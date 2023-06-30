@@ -1,10 +1,12 @@
 import { CounterStatus } from '../models/counter.model.js';
 import yup from 'yup';
 
-const title = yup.string().trim().min(3).max(20);
+const title = yup.string().trim().min(3).max(40);
 const description = yup.string().trim();
 const count = yup.number().integer();
-const status = yup.mixed<CounterStatus>().oneOf(Object.values(CounterStatus) as number[]);
+const status = yup
+  .mixed<CounterStatus>()
+  .oneOf(Object.values(CounterStatus).filter((item) => !isNaN(Number(item))) as number[]);
 const completition_date = yup.date();
 const reset_counter = yup.number().integer();
 
