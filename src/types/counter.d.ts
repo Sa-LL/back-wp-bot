@@ -5,6 +5,7 @@ export interface ICounter {
   _id?: Types.ObjectId;
   title: string;
   description?: string;
+  message: string;
   count?: number;
   status: Status;
   completition_date?: Date;
@@ -17,7 +18,11 @@ export interface ICounter {
  * GET REQUEST
  */
 
-interface GetRequestQuery extends ICounter {}
+interface GetRequestQuery extends ICounter {
+  page?: number;
+  limit?: number;
+  sort?: string;
+}
 
 /**
  * PATCH REQUEST

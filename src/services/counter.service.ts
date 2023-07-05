@@ -6,12 +6,25 @@ function createCounter(counter: ICounter) {
   return newCounter.save();
 }
 
-function getCounter(filters: ICounter) {
-  return counterModel.find(filters).exec();
+function getCounter(filters: ICounter, options: Record<string, unknown>) {
+  return counterModel.paginate(filters, options);
 }
 
-function getCounterByID(id: string) {
-  return counterModel.findById(id).exec();
+function getCounterByTitle(title: string) {
+  return new Promise((resolve, reject) => {
+    counterModel
+      .findOne({ title: title })
+      .exec()
+      .then((result) => {
+        if (result == null) {
+          reject(new Error('Counter not found', { cause: { type: 404 } }));
+        }
+        resolve(result);
+      })
+      .catch((error: Error) => {
+        reject(error);
+      });
+  });
 }
 
 function updateCounter(id: string, counter: PatchRequestBody) {
@@ -25,7 +38,7 @@ function deleteCounter(id: string) {
 export default {
   create: createCounter,
   get: getCounter,
-  getByID: getCounterByID,
+  getByTitle: getCounterByTitle,
   update: updateCounter,
   delete: deleteCounter,
 };

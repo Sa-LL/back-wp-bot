@@ -18,6 +18,9 @@ const router = Router();
  *        description:
  *          type: string
  *          description: counter description
+ *        message:
+ *          type: string
+ *          description: counter message
  *        count:
  *          type: number
  *          description: initial counter
@@ -33,9 +36,11 @@ const router = Router();
  *      required:
  *        - title
  *        - status
+ *        - message
  *      example:
  *        title: Qcho se queja del trabajo
  *        description: cantidad de veces que qcho se ha quejado del trabajo
+ *        message: qcho se ha quejado del trabajo [count] veces
  *        count: 4
  *        status: 0
  *        reset_counter: 0
@@ -47,6 +52,25 @@ const router = Router();
  *  get:
  *    summary: return all counters
  *    tags: [Counter]
+ *    parameters:
+ *      - in: query
+ *        name: page
+ *        schema:
+ *          type: integer
+ *        required: false
+ *        description: page number
+ *      - in: query
+ *        name: limit
+ *        schema:
+ *          type: integer
+ *        required: false
+ *        description: page limit
+ *      - in: query
+ *        name: sort
+ *        schema:
+ *          type: string
+ *        required: false
+ *        description: sort by field
  *    responses:
  *      200:
  *        description: all counters
@@ -56,24 +80,22 @@ const router = Router();
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/Counter'
- *     500:
- *       description: internal server error
  */
 router.get('/', methods.getCounter);
 
 /**
  * @swagger
- * /api/counter/{id}:
+ * /api/counter/{title}:
  *  get:
  *    summary: return a counter
  *    tags: [Counter]
  *    parameters:
  *      - in: path
- *        name: id
+ *        name: title
  *        schema:
  *          type: string
  *        required: true
- *        description: the counter id
+ *        description: the counter title
  *    responses:
  *      200:
  *        description: one counter
@@ -87,7 +109,7 @@ router.get('/', methods.getCounter);
  *      500:
  *        description: internal server error
  */
-router.get('/:id', methods.getCounterByID);
+router.get('/:title', methods.getCounterByTitle);
 
 /**
  * @swagger

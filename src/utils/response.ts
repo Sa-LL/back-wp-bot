@@ -9,11 +9,11 @@ export const error = (req: Request, res: Response) => {
   res;
 };
 
-export const asyncHandler = async (promise: Promise<unknown>) => {
+export async function asyncHandler<T>(promise: Promise<T>): Promise<[T | null, Error | null]> {
   try {
     const data = await promise;
     return [data, null];
-  } catch (error) {
+  } catch (error: any) {
     return [null, error];
   }
-};
+}

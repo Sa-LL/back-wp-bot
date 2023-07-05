@@ -3,6 +3,7 @@ import yup from 'yup';
 
 const title = yup.string().trim().min(3).max(40);
 const description = yup.string().trim();
+const message = yup.string().trim().min(3);
 const count = yup.number().integer();
 const status = yup
   .mixed<CounterStatus>()
@@ -13,6 +14,7 @@ const reset_counter = yup.number().integer();
 const createCounterSchemaYUP = yup.object({
   title: title.required(),
   description: description.default(''),
+  message: message.required(),
   count: count.default(0),
   status: status.required().default(0),
   completition_date,
@@ -22,6 +24,7 @@ const createCounterSchemaYUP = yup.object({
 const patchCounterSchemaYUP = yup.object({
   title,
   description,
+  message,
   count,
   status,
   completition_date,
