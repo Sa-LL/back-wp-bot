@@ -8,15 +8,6 @@ export enum CounterStatus {
   STOPPED = 2,
 }
 
-export const customCounterLabels = {
-  totalDocs: 'totalItems',
-  docs: 'items',
-  page: 'currentPage',
-  nextPage: 'next',
-  prevPage: 'prev',
-  meta: 'paginator',
-};
-
 export const counterSchema = new Schema<ICounter>(
   {
     title: {
@@ -45,6 +36,10 @@ export const counterSchema = new Schema<ICounter>(
     reset_counter: {
       type: Number,
       default: 0,
+    },
+    group_id: {
+      type: String,
+      required: true,
     },
   },
   {

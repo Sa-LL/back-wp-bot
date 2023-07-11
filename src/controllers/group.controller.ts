@@ -1,21 +1,20 @@
-import { NextFunction, Request, Response } from 'express';
-import logger from '../utils/logger.js';
-import services from '../services/counter.service.js';
-import { counterSchema } from '../models/counter.model.js';
-import { checkQueryParameters } from '../utils/filters.js';
-import { GetRequest, PatchRequest } from '../types/counter.js';
+import { NextFunction, Response } from 'express';
+import { GetRequest } from '../types/group.js';
 import { asyncHandler } from '../utils/response.js';
-import { TOptions } from 'src/types/types.js';
+import { checkQueryParameters } from '../utils/filters.js';
+import { groupSchema } from '../models/group.model.js';
+import { TOptions } from '../types/types.js';
 import { customLabels } from '../utils/labels.js';
+import services from '../services/group.service.js';
 
-const getCounter = async (req: GetRequest, res: Response, next: NextFunction) => {
+const getGroups = async (req: GetRequest, res: Response, next: NextFunction) => {
   const { page, limit, sort, ...query } = req.query;
-  const [_, errorQuery] = await asyncHandler(checkQueryParameters(counterSchema, query));
+  const [_, errorQuery] = await asyncHandler(checkQueryParameters(groupSchema, query));
   if (errorQuery) return next(errorQuery);
 
   const options: TOptions = {
     customLabels: customLabels,
-    limit: limit || 5,
+    limit: limit || 10,
     page: page || 1,
   };
 
@@ -27,9 +26,9 @@ const getCounter = async (req: GetRequest, res: Response, next: NextFunction) =>
   res.status(200).send(result);
 };
 
-const getCounterByTitle = async (req: Request, res: Response, next: NextFunction) => {
-  const { title } = req.params;
-  const [result, error] = await asyncHandler(services.getByTitle(title));
+const getGroupById = async (req: GetRequest, res: Response, next: NextFunction) => {
+  const { id } = req.params;
+  const [result, error] = await asyncHandler(services.getById(id));
   if (error) {
     const cause = error.cause as { type: number };
     if (cause.type === 404) return res.status(404).send(error.message);
@@ -39,7 +38,7 @@ const getCounterByTitle = async (req: Request, res: Response, next: NextFunction
   res.status(200).send(result);
 };
 
-const createCounter = async (req: Request, res: Response, next: NextFunction) => {
+const createGroup = async (req: GetRequest, res: Response, next: NextFunction) => {
   const { body } = req;
   const [result, errorDB] = await asyncHandler(services.create(body));
   if (errorDB) return next(errorDB);
@@ -47,7 +46,7 @@ const createCounter = async (req: Request, res: Response, next: NextFunction) =>
   res.status(200).send(result);
 };
 
-const patchCounter = async (req: PatchRequest, res: Response, next: NextFunction) => {
+const patchGroup = async (req: GetRequest, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const body = req.body;
   if (!id) return next(new Error('ID not found'));
@@ -58,8 +57,10 @@ const patchCounter = async (req: PatchRequest, res: Response, next: NextFunction
   res.status(200).send(result);
 };
 
-const deleteCounter = async (req: Request, res: Response, next: NextFunction) => {
+const deleteGroup = async (req: GetRequest, res: Response, next: NextFunction) => {
   const { id } = req.params;
+  if (!id) return next(new Error('ID not found'));
+
   const [result, errorDB] = await asyncHandler(services.delete(id));
   if (errorDB) return next(errorDB);
 
@@ -67,9 +68,9 @@ const deleteCounter = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 export default {
-  getCounter,
-  getCounterByTitle,
-  createCounter,
-  patchCounter,
-  deleteCounter,
+  getGroups,
+  getGroupById,
+  createGroup,
+  patchGroup,
+  deleteGroup,
 };

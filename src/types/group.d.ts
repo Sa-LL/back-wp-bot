@@ -1,25 +1,29 @@
-import { Request } from 'express';
-import { Types } from 'mongoose';
+interface IContactID {
+  server: string;
+  user: string;
+  _serialized: string;
+}
 
-export interface ICounter {
-  _id?: Types.ObjectId;
-  title: string;
+interface IGroupParticipant {
+  participant_id: IContactID;
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
+}
+
+export interface IGroup {
+  _id?: string;
+  group_id: IContactID;
+  name: string;
   description?: string;
-  message: string;
-  count?: number;
-  status: Status;
-  completition_date?: Date;
-  reset_counter?: number;
   created_at?: Date;
   updated_at?: Date;
-  group_id: string;
+  participants: IGroupParticipant[];
 }
 
 /**
  * GET REQUEST
  */
-
-interface GetRequestQuery extends ICounter {
+interface GetRequestQuery extends IGroup {
   page?: number;
   limit?: number;
   sort?: string;
@@ -33,7 +37,7 @@ interface PatchRequestParams {
 }
 
 export interface PatchRequestBody
-  extends Partial<Omit<ICounter, '_id' | 'created_at' | 'updated_at'>> {}
+  extends Partial<Omit<IGroup, '_id' | 'created_at' | 'updated_at'>> {}
 
 // export type Request = Request<RequestParams, ResponseBody, RequestBody, RequestQuery>;
 
